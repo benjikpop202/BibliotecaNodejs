@@ -1,5 +1,5 @@
 import {BibliotecaDB} from '../database/database.js'
-import {DataTypes, INTEGER} from 'sequelize'
+import {DataTypes} from 'sequelize'
 
 
 export const Libros = BibliotecaDB.define('libros', {
@@ -9,15 +9,23 @@ export const Libros = BibliotecaDB.define('libros', {
         autoIncrement: true
     },
     titulo:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull:false
     },
     descripcion:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
     },
     year:{
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     genero:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    prestado:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 })
