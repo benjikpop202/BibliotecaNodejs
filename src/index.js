@@ -5,7 +5,7 @@ const port = 3000
 
 async function main(){
     try {
-        await BibliotecaDB.authenticate()
+        await BibliotecaDB.sync()
         console.log("conexion exitosa");
         app.listen(port, ()=>{
             console.log("corriendo en el puerto",port);
