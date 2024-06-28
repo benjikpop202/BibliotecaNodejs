@@ -1,9 +1,9 @@
 import app from './app.js'
 import {BibliotecaDB} from './database/database.js'
-/*import {Libros} from './models/libros.js'
+import {Libros} from './models/libros.js'
 import {Autores} from './models/autores.js'
 import {Prestamos} from './models/prestamos.js'
-import {Usuarios} from './models/usuarios.js'*/
+import {Usuarios} from './models/usuarios.js'
 const port = 3000
 
 async function main(){
