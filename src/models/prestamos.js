@@ -4,7 +4,7 @@ import {Libros} from './libros.js'
 import {Usuarios} from './usuarios.js'
 
 export const Prestamos = BibliotecaDB.define('prestamos',{
-    id:{
+    id_prestamo:{
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true

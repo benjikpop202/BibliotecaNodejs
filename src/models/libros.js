@@ -3,7 +3,7 @@ import {DataTypes} from 'sequelize'
 
 
 export const Libros = BibliotecaDB.define('libros', {
-    id:{
+    id_libro:{
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true

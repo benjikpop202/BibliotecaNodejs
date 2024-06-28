@@ -1,11 +1,12 @@
 import {BibliotecaDB} from '../database/database.js'
+import {Libros} from './libros.js'
 import {DataTypes} from 'sequelize'
 
 export const Autores = BibliotecaDB.define('autores',{
-    id:{
+    id_autor:{
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
     nombre:{
         type: DataTypes.STRING,
@@ -19,3 +20,14 @@ export const Autores = BibliotecaDB.define('autores',{
         type: DataTypes.STRING
     }
 })
+
+Autores.hasMany(Libros, 
+    {
+        foreignKey: 'id_autor',
+        onDelete: 'CASCADE'
+    }
+)
+
+Libros.belongsTo(Autores, {
+    foreignKey: 'id_autor'
+ });
