@@ -15,17 +15,27 @@ export const Prestamos = BibliotecaDB.define('prestamos',{
     },
     fecha_inicio:{
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        allowNull: false
     },
     fecha_devolucion:{
         type:DataTypes.DATE,
-        defaultValue: () => {
-            const oneWeekFromNow = new Date();
-            oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7);
-            return oneWeekFromNow;
-          }
     }
 })
 
-Libros.belongsToMany(Usuarios,{through:Prestamos})
-Usuarios.belongsToMany(Libros,{through: Prestamos})
+Libros.hasMany(Prestamos,{
+    foreignKey: 'id_libro',
+    onDelete: 'CASCADE'
+})
+
+Prestamos.belongsTo(Libros,{
+    foreignKey: 'id_libro'
+})
+
+Usuarios.hasMany(Prestamos,{
+    foreignKey: 'id_usuario',
+    onDelete: 'CASCADE'
+})
+
+Prestamos.belongsTo(Usuarios,{
+    foreignKey: 'id_usuario'
+})

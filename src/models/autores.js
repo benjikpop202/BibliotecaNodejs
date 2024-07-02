@@ -17,7 +17,8 @@ export const Autores = BibliotecaDB.define('autores',{
         allowNull: false
     },
     descripcion:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
     }
 })
 
