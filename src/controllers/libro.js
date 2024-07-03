@@ -48,14 +48,14 @@ export const agregarLibro = async (req,res)=>{
 
 export const actualizarLibro = async (req,res)=>{
    const id = req.params.id
-   const {titulo, descripcion, año, genero} = req.body
+   const {titulo, descripcion, year, genero} = req.body
    try {
       const Libro = await Libros.findByPk(id)
       if(Libro){
-         Libro.titulo = titulo
-         Libro.descripcion = descripcion
-         Libro.year = año
-         Libro.genero = genero
+         if(titulo !== undefined){Libro.titulo = titulo}
+         if(descripcion !== undefined){Libro.descripcion = descripcion}
+         if(year !== undefined){Libro.year = year}
+         if(genero !== undefined){Libro.genero = genero}
         await Libro.save()
          res.status(200).send("Libro actualizado correctamente")
       }else{

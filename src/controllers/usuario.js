@@ -50,11 +50,11 @@ export const actualizarUsuario = async (req,res)=>{
     try {
         const User = await Usuarios.findByPk(id)
         if(User){
-            User.nombre = nombre
-            User.apellido = apellido
-            User.direccion = direccion
-            User.telefono = telefono
-            User.email = email
+            if(nombre !== undefined){User.nombre = nombre}
+            if(apellido !== undefined){User.apellido = apellido}
+            if(direccion !== undefined){User.direccion = direccion}
+            if(telefono !== undefined){User.telefono =telefono }
+            if(email !== undefined){User.email = email }
             await User.save()
             res.status(200).send("usuario editado exitosamente")
         }else{

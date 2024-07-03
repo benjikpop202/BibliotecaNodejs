@@ -16,7 +16,7 @@ export const obtenerPrestamos = async (req, res)=>{
 export const obtenerPrestamo = async (req,res)=>{
     const id = req.params.id
     try {
-        const Prestamo = Prestamos.findByPk(id)
+        const Prestamo = await Prestamos.findByPk(id)
         if(Prestamo){
             res.status(200).json(Prestamo)
         }else{
@@ -41,7 +41,7 @@ export const agregarPrestamo = async (req,res)=>{
                 return res.status(404).send("Error. El usuario no existe");
             }
             Libro.prestado = true
-            Libro.save()
+            await Libro.save()
             const NewPrestamo = await Prestamos.create({
                 fecha_inicio: fecha_inicio,
                 id_libro: id_libro,
@@ -60,23 +60,20 @@ export const agregarPrestamo = async (req,res)=>{
 
 export const actualizarPrestamo = async (req,res)=>{
     const id = req.params.id
-    const {fecha_inicio, fecha_devolucion, usuario_id, libro_id} = req.body
+    const {fecha_inicio, fecha_devolucion, id_usuario, id_libro} = req.body
     try {
-        const Prestamo = Prestamos.findByPk(id)
+        const Prestamo = await Prestamos.findByPk(id)
         if(Prestamo){
-         Prestamo.fecha_inicio = fecha_inicio
-         Prestamo.fecha_devolucion = fecha_devolucion
-         Prestamo.id_usuario = usuario_id
-         Prestamo.id_libro = libro_id
+         if(fecha_inicio !== undefined){Prestamo.fecha_inicio = fecha_inicio}
+         if(fecha_devolucion !== undefined){Prestamo.fecha_devolucion = fecha_devolucion}
+         if(id_usuario !== undefined){Prestamo.id_usuario = id_usuario}
+         if(id_libro !== undefined){Prestamo.id_libro = id_libro}
          await Prestamo.save()
-         res.status(200).send("Libro actualizado correctamente")
-         if(fecha_devolucion){
+         if(fecha_devolucion !== undefined){
             Prestamo.activo = false
-            Prestamo.save()
-            const Libro = await Libros.findByPk(libro_id)
-            Libro.prestado = false
-            await Libro.save()
+            await Prestamo.save()
          }
+         res.status(200).send("Prestamo actualizado correctamente")
         }else{
             res.status(404).send("prestamo no encontrado")
         }
@@ -87,19 +84,16 @@ export const actualizarPrestamo = async (req,res)=>{
 }
 
 export const eliminarPrestamo = async (req,res)=>{
- const id = req.params.id
- try {
-    const Prestamo = await Prestamos.findByPk(id)
-    if(Prestamo){
-        const Libro = await Libros.findByPk(Prestamo.id_libro)
-        Libro.prestado = 0
-        Libro.save()
-        Prestamo.destroy()
-    }else{
-        req.status(404).send("Prestamo no encontrado")
-    }
- } catch (error) {
-    console.log(error);
-    res.status(500).json({message: error.message})
- }
+    const id = req.params.id
+   try {
+      const DeletePrestamo = Prestamos.destroy({where: {id_prestamo: id}})
+      if(DeletePrestamo){
+         res.status(200).send(`Prestamo con ID: ${id} eliminado correctamente.`)
+      }else{
+         res.status(404).send(`no se ah encontrado ningun prestamo con ID: ${id}`)
+      }
+   } catch (error) {
+      res.status(500).json({message: error.message})
+      console.log(error);
+   }
 }

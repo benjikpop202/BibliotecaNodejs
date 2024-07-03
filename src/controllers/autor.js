@@ -49,9 +49,9 @@ export const actualizarAutor = async (req,res)=>{
    try {
       const Autor = await Autores.findByPk(id)
       if(Autor){
-         Autor.nombre = nombre
-         Autor.apellido = apellido
-         Autor.descripcion = descripcion
+         if(nombre !== undefined){Autor.nombre = nombre}
+         if(apellido !== undefined){Autor.apellido = apellido}
+         if(descripcion !== undefined){Autor.descripcion = descripcion}
         await Autor.save()
       }else{
          res.status(404).send("autor no encontrado")
